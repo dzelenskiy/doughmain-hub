@@ -10,7 +10,7 @@
     "serve": "node dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint . --ext .ts",
-    "format": "prettier --config .prettierrc 'src/**/*.ts' --write"
+    "format": "prettier --config .prettierrc src/**/*.{ts,js,json} --write"
   },
   "author": "",
   "license": "Apache-2.0",

@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import Home from '../pages/Home'
-import SignIn from '../pages/SignIn'
-import SignUp from '../pages/SignUp'
-import ResetPassword from '../pages/ResetPassword'
+import SignIn from '../features/authentication/pages/SignIn'
+import SignUp from '../features/authentication/pages/SignUp'
+import ResetPassword from '../features/authentication/pages/ResetPassword'
 import {
   AppBar,
   Toolbar,

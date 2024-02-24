@@ -36,15 +36,16 @@ export default function SignUp() {
 
   const submitForm = async (user: User) => {
     LOGGER.debug('SignUp submitForm called with User: ', user)
+    setSignUpStatusMessage('')
     try {
       await signUpUser(user)
     } catch (error) {
       let signUpErrorMessage =
         'There was an unexpected error during sign up, please try again later.'
-      LOGGER.debug(signUpErrorMessage)
       if (error instanceof Error) {
         signUpErrorMessage = error.message
       }
+      LOGGER.debug(signUpErrorMessage)
       setSignUpStatusMessage(signUpErrorMessage)
     }
   }

@@ -9,7 +9,8 @@ import {
   Checkbox,
   Grid,
   Button,
-  Link
+  Link,
+  FormHelperText
 } from '@mui/material'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import LOGGER from '../../../lib/logger'
@@ -17,6 +18,8 @@ import { useForm } from 'react-hook-form'
 import User from '../models/User'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { signInUser } from '../services/authenticationService'
+import { useState } from 'react'
 
 const schema = yup.object().shape({
   email: yup.string().required('A valid email is required to sign in.'),
@@ -24,6 +27,8 @@ const schema = yup.object().shape({
 })
 
 export default function SignIn() {
+  const [signInStatusMessage, setSignInStatusMessage] = useState('')
+
   const {
     register,
     handleSubmit,
@@ -34,8 +39,19 @@ export default function SignIn() {
     resolver: yupResolver(schema)
   })
 
-  const submitForm = (user: User) => {
+  const submitForm = async (user: User) => {
     LOGGER.debug('SignIn submitForm called with User: ', user)
+    setSignInStatusMessage('')
+    try {
+      await signInUser(user)
+    } catch (error) {
+      let signInErrorMessage = 'Unable to sign in at this time.'
+      if (error instanceof Error) {
+        signInErrorMessage = error.message
+      }
+      LOGGER.debug(signInErrorMessage)
+      setSignInStatusMessage(signInErrorMessage)
+    }
   }
 
   return (
@@ -47,6 +63,7 @@ export default function SignIn() {
         <Typography variant="h4" align="center">
           Sign in
         </Typography>
+        <FormHelperText>{signInStatusMessage}</FormHelperText>
         <TextField
           margin="normal"
           fullWidth
